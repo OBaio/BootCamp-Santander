@@ -1,0 +1,42 @@
+import pandas as pd
+import numpy as np
+
+# Parâmetros da simulação
+valor_inicial = 10000  # valor inicial investido (R$)
+aporte_mensal = 1000   # valor dos aportes mensais (R$)
+rendimento_mensal = 0.007  # rendimento médio mensal (0.7%)
+meses = 36  # duração da simulação em meses
+
+# Listas para armazenar os resultados
+meses_lista = []
+aporte_total_lista = []
+patrimonio_lista = []
+dividendos_lista = []
+
+# Inicialização
+aporte_total = valor_inicial
+patrimonio = valor_inicial
+
+for mes in range(1, meses + 1):
+    meses_lista.append(mes)
+    patrimonio *= (1 + rendimento_mensal)
+    patrimonio += aporte_mensal
+    aporte_total += aporte_mensal
+    dividendos = patrimonio * rendimento_mensal
+    aporte_total_lista.append(aporte_total)
+    patrimonio_lista.append(patrimonio)
+    dividendos_lista.append(dividendos)
+
+# Criar DataFrame
+df = pd.DataFrame({
+    "Mês": meses_lista,
+    "Total Investido (R$)": aporte_total_lista,
+    "Patrimônio Acumulado (R$)": patrimonio_lista,
+    "Dividendos Mensais (R$)": dividendos_lista
+})
+
+# Salvar em Excel
+excel_path = "/mnt/data/Simulador_FII.xlsx"
+df.to_excel(excel_path, index=False)
+
+excel_path
